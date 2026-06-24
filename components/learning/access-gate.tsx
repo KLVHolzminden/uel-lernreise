@@ -158,6 +158,21 @@ export function AccessGate({
               </div>
               <h2 className="mt-4 text-xl font-semibold text-ink">Du hast noch keinen Zugangscode?</h2>
               <p className="mt-3 text-base leading-7 text-slate">Melde dich bei mir.</p>
+              <div className="mt-5 flex items-center gap-4 rounded-3xl border border-white bg-white/80 p-3 shadow-sm">
+                <Image
+                  src="/images/steve-sander.png"
+                  alt="Steve Sander, Ansprechpartner für die Lernreise"
+                  width={88}
+                  height={88}
+                  className="h-20 w-20 shrink-0 rounded-full object-cover ring-2 ring-white"
+                />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-pine">
+                    Dein Ansprechpartner
+                  </p>
+                  <p className="mt-1 text-lg font-semibold text-ink">Steve Sander</p>
+                </div>
+              </div>
               <a
                 href={mailHref}
                 className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-ink ring-1 ring-mist transition hover:text-pine hover:ring-pine"
