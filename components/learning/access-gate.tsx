@@ -91,7 +91,7 @@ export function AccessGate({
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,32,51,0.02),rgba(17,32,51,0.08)_42%,rgba(17,32,51,0.38)_100%)]" />
-          <div className="absolute inset-x-0 top-[58%] z-10 -translate-y-1/2 px-5 sm:top-[60%] lg:top-[61%]">
+          <div className="absolute inset-x-0 top-[68%] z-10 -translate-y-1/2 px-5 sm:top-[69%] lg:top-[70%]">
             <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
               <button
                 type="button"
@@ -153,7 +153,7 @@ export function AccessGate({
             </div>
 
             <aside className="rounded-[30px] border border-mist bg-[#f8fafb] p-5">
-              <div className="w-fit rounded-full bg-pine/10 p-3 text-pine">
+              <div className="rounded-full bg-pine/10 p-3 text-pine w-fit">
                 <Mail className="h-5 w-5" />
               </div>
               <h2 className="mt-4 text-xl font-semibold text-ink">Du hast noch keinen Zugangscode?</h2>
@@ -180,7 +180,7 @@ export function AccessGate({
           className="w-full rounded-[36px] border border-white/70 bg-white/92 p-6 shadow-soft backdrop-blur md:p-8"
         >
           <div className="space-y-5">
-            <div className="w-fit rounded-full bg-pine/10 p-3 text-pine">
+            <div className="rounded-full bg-pine/10 p-3 text-pine w-fit">
               <ShieldCheck className="h-5 w-5" />
             </div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pine">
