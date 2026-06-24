@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { ArrowRight, Mail, ShieldCheck } from "lucide-react";
 import { Course } from "@/lib/types";
 import { cn, toGermanDisplayText } from "@/lib/utils";
@@ -38,11 +38,35 @@ export function AccessGate({
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const privacyTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const privacyCloseRef = useRef<HTMLButtonElement | null>(null);
   const mailHref = `mailto:${contactEmail}?subject=${encodeURIComponent(requestSubject)}&body=${encodeURIComponent(
     requestBody,
   )}`;
+
+  useEffect(() => {
+    if (!privacyOpen) return;
+
+    const activeElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    privacyTriggerRef.current = activeElement instanceof HTMLButtonElement ? activeElement : null;
+    privacyCloseRef.current?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setPrivacyOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      window.setTimeout(() => privacyTriggerRef.current?.focus(), 0);
+    };
+  }, [privacyOpen]);
 
   async function handleAccessSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -76,6 +100,12 @@ export function AccessGate({
     event.preventDefault();
     if (!name.trim() || !privacyAccepted) return;
     onWelcomeComplete(name.trim());
+  }
+
+  function openPrivacyNotice(event?: MouseEvent<HTMLButtonElement>) {
+    event?.preventDefault();
+    event?.stopPropagation();
+    setPrivacyOpen(true);
   }
 
   if (step === "hero") {
@@ -219,21 +249,42 @@ export function AccessGate({
               />
             </label>
             <div className="rounded-3xl border border-pine/15 bg-pine/5 p-5 text-base leading-7 text-ink">
-              Deine Antworten, dein Fortschritt und dein Name bleiben in deinem Browser gespeichert.
-              Am Ende wird nur eine anonyme Abschlussmeldung gezählt. Es werden keine Aufgabenantworten
-              und keine personenbezogenen Lernverläufe übertragen.
+              <p>
+                Dein Name wird nur verwendet, um deinen Abschlussnachweis in deinem Browser zu erstellen.
+                Deine Antworten, dein Fortschritt und dein Profil bleiben lokal auf deinem Gerät gespeichert.
+                An den Betreiber der Lernreise wird nur anonym übermittelt, dass die Lernreise genutzt
+                beziehungsweise abgeschlossen wurde. Es werden keine Namen, Antworten oder personenbezogenen
+                Lernverläufe übertragen.
+              </p>
+              <button
+                type="button"
+                onClick={openPrivacyNotice}
+                className="mt-4 inline-flex min-h-11 items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-pine ring-1 ring-pine/20 transition hover:ring-pine focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pine/20"
+              >
+                Datenschutzhinweise zur Lernreise anzeigen
+              </button>
             </div>
-            <label className="flex max-w-2xl items-start gap-3 rounded-3xl border border-mist bg-white/80 p-4">
+            <div className="flex max-w-2xl items-start gap-3 rounded-3xl border border-mist bg-white/80 p-4">
               <input
+                id="privacyAccepted"
                 type="checkbox"
                 checked={privacyAccepted}
                 onChange={(event) => setPrivacyAccepted(event.target.checked)}
                 className="mt-1 h-5 w-5 rounded border-mist text-pine"
               />
               <span className="text-base leading-7 text-ink">
-                Ich habe den Datenschutzhinweis gelesen und möchte die Lernreise starten.
+                <label htmlFor="privacyAccepted">Ich habe die </label>
+                <button
+                  type="button"
+                  onClick={openPrivacyNotice}
+                  aria-label="Datenschutzhinweise zur Lernreise öffnen"
+                  className="font-semibold text-pine underline underline-offset-4 transition hover:text-ink focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pine/20"
+                >
+                  Datenschutzhinweise zur Lernreise
+                </button>
+                <label htmlFor="privacyAccepted"> gelesen und möchte die Lernreise starten.</label>
               </span>
-            </label>
+            </div>
             <button
               type="submit"
               disabled={!name.trim() || !privacyAccepted}
@@ -253,6 +304,178 @@ export function AccessGate({
           </div>
         </form>
       </section>
+      {privacyOpen ? (
+        <div
+          className="fixed inset-0 z-50 grid place-items-center bg-ink/55 px-4 py-6 backdrop-blur-sm"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setPrivacyOpen(false);
+            }
+          }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="privacy-notice-title"
+            className="max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-[32px] border border-white/70 bg-white shadow-soft"
+          >
+            <div className="flex items-start justify-between gap-4 border-b border-mist bg-sand/70 px-6 py-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pine">
+                  Datenschutz
+                </p>
+                <h2 id="privacy-notice-title" className="mt-2 font-display text-3xl leading-tight text-ink">
+                  Datenschutzhinweise zur Lernreise
+                </h2>
+              </div>
+              <button
+                ref={privacyCloseRef}
+                type="button"
+                onClick={() => setPrivacyOpen(false)}
+                className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-mist transition hover:text-pine hover:ring-pine focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pine/20"
+              >
+                Schließen
+              </button>
+            </div>
+
+            <div className="max-h-[calc(90vh-8rem)] space-y-6 overflow-y-auto px-6 py-6 text-base leading-7 text-slate">
+              <p>
+                Diese Lernreise wird als geschützte Webanwendung bereitgestellt. Sie dient der
+                Orientierung auf dem Weg zur Übungsleiter*innen-Rolle und arbeitet mit Aufgaben,
+                Reflexionen, Praxisimpulsen und einem Abschlussnachweis.
+              </p>
+
+              <section className="rounded-3xl border border-pine/15 bg-pine/5 p-5">
+                <h3 className="text-lg font-semibold text-ink">Verantwortlicher Ansprechpartner</h3>
+                <p className="mt-3 text-ink">
+                  Steve Sander
+                  <br />
+                  Kreissportbund Holzminden
+                  <br />
+                  E-Mail:{" "}
+                  <a
+                    href="mailto:s.sander@ksbholzminden.de"
+                    className="font-semibold text-pine underline underline-offset-4"
+                  >
+                    s.sander@ksbholzminden.de
+                  </a>
+                </p>
+                <p className="mt-4">
+                  Weitere Informationen zum Datenschutz beim Kreissportbund Holzminden findest du in
+                  der allgemeinen Datenschutzerklärung des KSB Holzminden.
+                </p>
+                <a
+                  href="https://ksb-holzminden.de/datenschutzerklaerung/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex min-h-11 items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-pine ring-1 ring-pine/20 transition hover:ring-pine focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pine/20"
+                >
+                  Allgemeine Datenschutzerklärung des KSB Holzminden öffnen
+                </a>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Welche Daten gibst du ein?</h3>
+                <p className="mt-2">
+                  Zu Beginn trägst du deinen Namen ein. Dieser Name wird ausschließlich verwendet, um
+                  am Ende deinen persönlichen Abschlussnachweis in deinem Browser zu erstellen.
+                </p>
+                <p className="mt-2">
+                  Der Name wird nicht automatisch an den Betreiber der Lernreise übertragen und nicht
+                  serverseitig gespeichert.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Was wird lokal gespeichert?</h3>
+                <p className="mt-2">
+                  Damit du die Lernreise bearbeiten und fortsetzen kannst, werden folgende Informationen
+                  lokal in deinem Browser gespeichert: dein eingegebener Name, dein Bearbeitungsstand,
+                  deine Antworten, deine besuchten Praxisimpulse, deine Punkte und Erfahrungsstufe, dein
+                  Profil aus Lachen, Lernen und Leisten sowie dein Abschlussstatus.
+                </p>
+                <p className="mt-2">
+                  Diese Daten bleiben auf deinem Gerät beziehungsweise in deinem Browser gespeichert.
+                  Du kannst sie über die Funktion „Lernreise zurücksetzen“ löschen.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Was wird an den Betreiber übermittelt?</h3>
+                <p className="mt-2">
+                  Beim Start und beim Abschluss der Lernreise kann eine anonyme Meldung an den Betreiber
+                  gesendet werden. Diese Meldung dient nur dazu, zu sehen, ob die Lernreise genutzt wird
+                  und wie viele Personen sie abschließen.
+                </p>
+                <p className="mt-2">
+                  Dabei werden keine Namen, keine Antworten, keine Punkte, keine Profilwerte, keine
+                  Notizen und keine personenbezogenen Lernverläufe übertragen.
+                </p>
+                <p className="mt-2">
+                  Der Betreiber sieht also nicht, wer welche Aufgaben bearbeitet hat und auch nicht,
+                  welche Person die Lernreise abgeschlossen hat.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Wofür wird der Abschlussnachweis genutzt?</h3>
+                <p className="mt-2">
+                  Wenn du die Lernreise abschließt, kannst du einen Abschlussnachweis herunterladen oder
+                  ausdrucken. Dieser Nachweis enthält deinen eingegebenen Namen und das Abschlussdatum.
+                </p>
+                <p className="mt-2">
+                  Der Abschlussnachweis wird lokal in deinem Browser erzeugt. Er wird nicht automatisch
+                  an den Betreiber gesendet. Du entscheidest selbst, ob du den Nachweis weiterleitest,
+                  zum Beispiel zur Anerkennung von Lerneinheiten.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Zugangscode</h3>
+                <p className="mt-2">
+                  Der Zugangscode dient dazu, die Lernreise nur eingeladenen oder berechtigten Personen
+                  zugänglich zu machen. Der eingegebene Code wird zur Prüfung des Zugangs verwendet. Nach
+                  erfolgreicher Prüfung wird im Browser nur gespeichert, dass der Zugang freigegeben wurde.
+                  Der Zugangscode selbst soll nicht unnötig dauerhaft gespeichert werden.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Technische Verbindungsdaten</h3>
+                <p className="mt-2">
+                  Beim Aufruf der Website können durch den Hostinganbieter technisch notwendige
+                  Verbindungsdaten verarbeitet werden, zum Beispiel IP-Adresse, Zeitpunkt des Aufrufs
+                  und Browserinformationen. Diese Verarbeitung ist für die Bereitstellung der Website
+                  technisch erforderlich.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Deine Rechte</h3>
+                <p className="mt-2">
+                  Für die allgemeine Verarbeitung personenbezogener Daten gelten die Hinweise und
+                  Betroffenenrechte aus der Datenschutzerklärung des KSB Holzminden. Dazu gehören
+                  insbesondere Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
+                  Widerspruch und Beschwerde bei einer zuständigen Aufsichtsbehörde.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-lg font-semibold text-ink">Hinweis zur lokalen Speicherung</h3>
+                <p className="mt-2">
+                  Da Name, Antworten und Fortschritt lokal in deinem Browser gespeichert werden, kann der
+                  Betreiber diese Daten nicht zentral einsehen oder für dich wiederherstellen. Wenn du
+                  Browserdaten löschst oder ein anderes Gerät verwendest, kann dein lokaler Lernstand
+                  verloren gehen.
+                </p>
+              </section>
+
+              <p className="text-sm font-semibold text-slate">Stand: Juni 2026</p>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </main>
   );
 }
