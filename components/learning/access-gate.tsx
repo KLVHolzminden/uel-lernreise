@@ -90,18 +90,18 @@ export function AccessGate({
             sizes="100vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,32,51,0.06),rgba(17,32,51,0.18)_56%,rgba(17,32,51,0.72))]" />
-          <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-10 md:pb-14">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,32,51,0.02),rgba(17,32,51,0.08)_42%,rgba(17,32,51,0.38)_100%)]" />
+          <div className="absolute inset-x-0 top-[58%] z-10 -translate-y-1/2 px-5 sm:top-[60%] lg:top-[61%]">
             <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
               <button
                 type="button"
                 onClick={() => setStep("access")}
-                className="inline-flex min-h-14 items-center gap-3 rounded-full bg-[#ff6a1a] px-8 py-4 text-lg font-bold text-white shadow-[0_20px_55px_rgba(0,0,0,0.28)] transition hover:bg-[#e95505] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/70"
+                className="inline-flex min-h-14 items-center gap-3 rounded-full bg-[#ff6a1a] px-8 py-4 text-lg font-bold text-white shadow-[0_18px_42px_rgba(255,106,26,0.28)] transition hover:bg-[#e95505] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/70"
               >
                 Lernreise starten
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <p className="mt-4 rounded-full bg-white/88 px-5 py-2 text-base font-semibold text-ink shadow-sm backdrop-blur">
+              <p className="mt-3 rounded-full bg-white/86 px-5 py-2 text-base font-semibold text-ink shadow-sm backdrop-blur">
                 Entdecke dein Profil aus Lachen, Lernen und Leisten.
               </p>
             </div>
@@ -153,7 +153,7 @@ export function AccessGate({
             </div>
 
             <aside className="rounded-[30px] border border-mist bg-[#f8fafb] p-5">
-              <div className="rounded-full bg-pine/10 p-3 text-pine w-fit">
+              <div className="w-fit rounded-full bg-pine/10 p-3 text-pine">
                 <Mail className="h-5 w-5" />
               </div>
               <h2 className="mt-4 text-xl font-semibold text-ink">Du hast noch keinen Zugangscode?</h2>
@@ -180,7 +180,7 @@ export function AccessGate({
           className="w-full rounded-[36px] border border-white/70 bg-white/92 p-6 shadow-soft backdrop-blur md:p-8"
         >
           <div className="space-y-5">
-            <div className="rounded-full bg-pine/10 p-3 text-pine w-fit">
+            <div className="w-fit rounded-full bg-pine/10 p-3 text-pine">
               <ShieldCheck className="h-5 w-5" />
             </div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pine">
