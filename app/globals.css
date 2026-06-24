@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-sand bg-glow text-ink antialiased;
+  min-height: 100vh;
+  line-height: 1.62;
+  background-attachment: fixed;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b7c6d5 transparent;
+}
+
+::selection {
+  background: rgba(29, 91, 79, 0.18);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(29, 91, 79, 0.72);
+  outline-offset: 3px;
+}
+
+.learning-readable section .text-sm,
+.learning-readable section .text-base,
+.learning-status-page .text-sm,
+.learning-status-page .text-base,
+.focus-dialog .text-sm,
+.focus-dialog .text-base {
+  font-size: 1.125rem;
+  line-height: 1.55;
+}
+
+.learning-readable section .text-xs,
+.learning-status-page .text-xs,
+.focus-dialog .text-xs,
+.focus-dialog-label {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.learning-readable section button,
+.learning-readable section a,
+.learning-status-page button,
+.learning-status-page a,
+.focus-dialog button,
+.focus-dialog a {
+  min-height: 3rem;
+}
+
+.learning-readable section textarea,
+.learning-readable section select,
+.learning-readable section input,
+.learning-status-page textarea,
+.learning-status-page select,
+.learning-status-page input,
+.focus-dialog textarea,
+.focus-dialog select,
+.focus-dialog input {
+  font-size: 1.125rem;
+  line-height: 1.55;
+}
+
+.learning-readable .learning-scene aside .text-sm {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.learning-readable .learning-scene aside .text-xs {
+  font-size: 0.875rem;
+}
+
+.learning-readable p,
+.learning-readable li,
+.focus-dialog p,
+.focus-dialog li {
+  overflow-wrap: anywhere;
+}
+
+@keyframes experience-confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -24px, 0) rotate(0deg) scale(0.9);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 82vh, 0) rotate(540deg) scale(1.04);
+  }
+}
+
+@keyframes experience-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.42;
+    transform: scale(1.04);
+  }
+}
+
+@layer utilities {
+  .experience-confetti {
+    animation-name: experience-confetti-fall;
+    animation-timing-function: cubic-bezier(0.18, 0.82, 0.24, 0.99);
+    animation-fill-mode: forwards;
+  }
+
+  .experience-overlay-glow {
+    background:
+      radial-gradient(circle at 18% 22%, rgba(240, 199, 76, 0.16), transparent 26%),
+      radial-gradient(circle at 74% 24%, rgba(110, 179, 110, 0.14), transparent 24%),
+      radial-gradient(circle at 50% 12%, rgba(214, 90, 74, 0.12), transparent 22%);
+    animation: experience-glow-pulse 2.4s ease-in-out infinite;
+  }
+
+  .experience-stage-glow {
+    box-shadow: 0 0 18px rgba(114, 179, 106, 0.22);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .peripheral-ui {
+      filter: blur(4px) saturate(0.9);
+      opacity: 0.44;
+      transform: translateY(2px) scale(0.994);
+      transition:
+        filter 220ms ease,
+        opacity 220ms ease,
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        border-color 220ms ease;
+      will-change: filter, opacity, transform;
+    }
+
+    .peripheral-ui:hover,
+    .peripheral-ui:focus-within,
+    .peripheral-ui[data-active="true"] {
+      filter: blur(0);
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .experience-confetti,
+  .experience-overlay-glow {
+    animation: none !important;
+  }
+
+  .experience-stage-glow {
+    transition: none !important;
+  }
+}
