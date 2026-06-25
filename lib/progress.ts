@@ -259,7 +259,25 @@ function getCompletedTaskIds(progress: ProgressState) {
 }
 
 function getOpenedDeepDiveIds(progress: ProgressState) {
-  return Array.from(new Set(progress.openedInsightIds.filter((id) => allDeepDiveIds.includes(id))));
+  return Array.from(
+    new Set(
+      progress.openedInsightIds.filter((id) => {
+        const sceneId = id.split(".deepDive.")[0];
+        return allDeepDiveIds.includes(id) && allTaskIds.includes(sceneId);
+      }),
+    ),
+  );
+}
+
+function getActiveDeepDiveSceneIds() {
+  return getDeepDiveSceneIds().filter((sceneId) => allTaskIds.includes(sceneId));
+}
+
+function getActiveDeepDiveIds() {
+  return allDeepDiveIds.filter((id) => {
+    const sceneId = id.split(".deepDive.")[0];
+    return allTaskIds.includes(sceneId);
+  });
 }
 
 function getAwardCatalog(course: Course) {
@@ -325,7 +343,7 @@ function getDeepDivePointTotals(course: Course, progress: ProgressState) {
     ),
   );
   const openedIds = getOpenedDeepDiveIds(progress);
-  const bonusSceneIds = getDeepDiveSceneIds();
+  const bonusSceneIds = getActiveDeepDiveSceneIds();
 
   return {
     max: Array.from(insightPoints.values()).reduce((sum, points) => sum + points, 0),
@@ -544,18 +562,20 @@ export function getOptionalProgress(progress: ProgressState): OptionalProgress {
 
 export function getInsightProgress(progress: ProgressState): InsightProgress {
   const openedDeepDiveIds = getOpenedDeepDiveIds(progress);
-  const completedTaskBonuses = getDeepDiveSceneIds().filter((sceneId) =>
+  const activeDeepDiveIds = getActiveDeepDiveIds();
+  const activeDeepDiveSceneIds = getActiveDeepDiveSceneIds();
+  const completedTaskBonuses = activeDeepDiveSceneIds.filter((sceneId) =>
     hasCompletedSceneDeepDiveBonus(sceneId, openedDeepDiveIds),
   ).length;
-  const totalTaskBonuses = getDeepDiveSceneIds().length;
+  const totalTaskBonuses = activeDeepDiveSceneIds.length;
 
   return {
     discovered: openedDeepDiveIds.length,
-    total: allDeepDiveIds.length,
+    total: activeDeepDiveIds.length,
     completedTaskBonuses,
     totalTaskBonuses,
     points: openedDeepDiveIds.length + completedTaskBonuses,
-    totalPoints: allDeepDiveIds.length + totalTaskBonuses,
+    totalPoints: activeDeepDiveIds.length + totalTaskBonuses,
   };
 }
 

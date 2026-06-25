@@ -115,12 +115,6 @@ const nextTaskPreviewText: Record<string, string> = {
     "Du schaust darauf, wie du individuelle Fortschritte sichtbar und motivierend anerkennen kannst.",
   "c4-situationselastisch":
     "Du übst, einen Plan ruhig anzupassen, wenn Gruppe, Raum oder Material anders reagieren als erwartet.",
-  "c5-intro":
-    "Du lernst dein digitales Notizbuch als Begleiter für Reflexion und Entwicklung kennen.",
-  "c5-rueckblick":
-    "Du verbindest Stimmung, Lernen und Belastung zu einem kurzen Rückblick auf deine Praxis.",
-  "c5-kompass":
-    "Du schaust auf dein persönliches ÜL-Profil und darauf, welche Schwerpunkte sichtbar werden.",
   "c5-cta-uelc":
     "Du richtest den Blick auf konkrete nächste Schritte Richtung ÜL-C Ausbildung.",
 };
@@ -142,14 +136,14 @@ const optionalTaskPreviewText: Record<string, string> = {
     "Diese Vertiefung zeigt, wie gezieltes Feedback von anderen deinen Blick auf die Stunde schärfen kann.",
   "c5-fallbeispiel":
     "Diese Vertiefung verbindet mehrere Beobachtungen zu einer praxisnahen Entscheidungssituation.",
+  "c5-rueckblick":
+    "Diese Vertiefung nutzt eine Bildszene, um Stimmung, Lernen und Belastung im Rückblick zusammenzudenken.",
   "c5-challenge":
     "Diese Vertiefung gibt dir Ideen, wie zusätzliche Herausforderungen ohne Druck entstehen können.",
   "c5-trainingsprinzip":
     "Diese Vertiefung macht greifbar, wie Belastung, Anpassung und Variation zusammenwirken.",
   "c5-sicherheitscheck":
     "Diese Vertiefung hilft dir, Sicherheit und Belastung vor einer Stunde bewusst einzuschätzen.",
-  "c5-beutebuch":
-    "Diese Vertiefung unterstützt dich dabei, persönliche Erkenntnisse für spätere Stunden festzuhalten.",
 };
 
 function getScenePreviewText(scene: Scene | null) {
@@ -679,6 +673,17 @@ export function LearningApp() {
     }));
   }
 
+  function markNotebookIntroSeen() {
+    setProgress((current) => {
+      if (current.notebookIntroSeen) return current;
+
+      return {
+        ...current,
+        notebookIntroSeen: true,
+      };
+    });
+  }
+
   function buildContextRail(scene: Scene) {
     const sceneIsOptional = isOptionalTask(scene.id);
     const sceneCompleted = progress.completedSceneIds.includes(scene.id);
@@ -1180,6 +1185,7 @@ export function LearningApp() {
             notebook={progress.notebook}
             onNotebookChange={updateNotebookField}
             onAwardPoints={handleAwardPoints}
+            onNotebookIntroSeen={markNotebookIntroSeen}
             onStart={() => startJourney(true)}
             onResume={() => startJourney(false)}
           />
@@ -1454,6 +1460,8 @@ export function LearningApp() {
                       hideToggle
                       className="bg-white shadow-none"
                       downloadHref="/downloads/notizbuch-digital.pdf"
+                      introSeen={progress.notebookIntroSeen ?? false}
+                      onIntroSeen={markNotebookIntroSeen}
                     />
                   </div>
                 </div>

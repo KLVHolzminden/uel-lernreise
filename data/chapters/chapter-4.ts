@@ -4,6 +4,9 @@ import {
   sceneSicherheitscheck,
   sceneTrainingsprinzip,
 } from "@/data/optional-scenes";
+import { chapter5 } from "@/data/chapters/chapter-5";
+
+const sceneCtaUelc = chapter5.scenes.find((scene) => scene.id === "c5-cta-uelc");
 
 export const chapter4: Chapter = {
   id: "herausforderungen-passend-gestalten",
@@ -305,5 +308,6 @@ export const chapter4: Chapter = {
     sceneChallengeLevel,
     sceneTrainingsprinzip,
     sceneSicherheitscheck,
+    ...(sceneCtaUelc ? [sceneCtaUelc] : []),
   ],
 };

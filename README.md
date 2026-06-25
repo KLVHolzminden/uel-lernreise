@@ -18,7 +18,7 @@ Die Lernreise unterstützt Übungsleitende dabei,
 - Lernprozesse zielgruppenorientiert zu planen und zu reflektieren
 - Belastung, Differenzierung und Erfolgserlebnisse passend zu steuern
 
-Der Pflichtweg umfasst **20 reguläre Aufgaben** in **5 Kapiteln**. Zusätzlich gibt es **12 freiwillige Vertiefungen**.
+Der Pflichtweg umfasst **17 reguläre Aufgaben** in **4 Kapiteln**. Zusätzlich gibt es **12 freiwillige Vertiefungen**.
 
 ## Stack
 
@@ -68,7 +68,7 @@ Auch der Produktionsstart läuft standardmäßig auf Port `3500`.
 
 ## Lernlogik
 
-- **Pflichtfortschritt** zählt nur die 20 regulären Aufgaben.
+- **Pflichtfortschritt** zählt nur die 17 regulären Aufgaben.
 - **Freiwillige Vertiefungen** zählen nicht zum Pflichtfortschritt und blockieren keinen Abschluss.
 - **Praxisimpulse** liegen innerhalb jeder Aufgabe unter `Warum ist das wichtig?` als drei interne `Mehr erfahren`-Fenster.
 - **Profilbalken** für `Lachen`, `Lernen` und `Leisten` werden getrennt berechnet.
@@ -131,11 +131,17 @@ node -e "const crypto=require('crypto'); console.log(crypto.createHash('sha256')
 
 Für die lokale Entwicklung gibt es einen serverseitigen Demo-Hash. Vor Vercel-Deployment bitte eigene Codes verwenden und den Hash in `ACCESS_CODE_HASHES` hinterlegen.
 
-## Datenschutzkonzept
+## Datenschutzkonzept der Lernreise
 
-Die Zugangscode-Prüfung erhält ausschließlich den eingegebenen Code. Name, Antworten, Punkte, Profilwerte, Notizen und Lernverlauf werden nicht an die Codeprüfung oder andere Serverless-Funktionen gesendet.
+Die Lernreise nutzt eine vorgeschaltete Zugangscode-Prüfung und einen verständlichen Datenschutzhinweis auf der Willkommensseite. Der eingegebene Name wird nur lokal im Browser gespeichert und ausschließlich für den lokal erzeugten Abschlussnachweis verwendet.
 
-Die Willkommensseite speichert den Namen nur lokal im Browser. Er wird für den lokal erzeugten Abschlussnachweis verwendet und nicht automatisch an Steve oder einen Server übertragen.
+Fortschritt, Antworten, Reflexionen, Notizbuch-Einträge, Punkte, Profilwerte und Praxisimpulse bleiben lokal im Browser. Über die Funktion **„Lernreise zurücksetzen“** können diese lokalen Daten gelöscht werden.
+
+An den Betreiber werden keine personenbezogenen Lernverläufe, Namen, Antworten, Punkte, Profilwerte oder Notizen übertragen. Die App kann lediglich eine anonyme Nutzungs- beziehungsweise Abschlussmeldung senden, um die Nutzung und Abschlüsse der Lernreise grob zählen zu können.
+
+Der Abschlussnachweis wird lokal erzeugt und nicht automatisch versendet. Die allgemeine Datenschutzerklärung des KSB Holzminden ist in der App verlinkt:
+
+[Allgemeine Datenschutzerklärung des KSB Holzminden](https://ksb-holzminden.de/datenschutzerklaerung/)
 
 ## Anonyme Abschlussmeldung
 

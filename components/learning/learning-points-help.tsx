@@ -13,7 +13,7 @@ type LearningPointsHelpProps = {
 };
 
 const helpText =
-  "Der Pflichtfortschritt zählt nur die 20 regulären Aufgaben. Freiwillige Vertiefungen bleiben freiwillig und blockieren den Lernweg nicht. Die drei Balken für Lachen, Lernen und Leisten zeigen getrennt davon dein inhaltliches Profil. Aus denselben vorhandenen Punkten entsteht zusätzlich oben deine Erfahrungsstufe. Jede Aufgabe stärkt ihren Hauptbereich mit +2 und weitere Wirkungsbereiche mit je +1, sobald du sie erfolgreich speicherst.";
+  "Der Pflichtfortschritt zählt nur die regulären Aufgaben. Freiwillige Vertiefungen bleiben freiwillig und blockieren den Lernweg nicht. Die drei Balken für Lachen, Lernen und Leisten zeigen getrennt davon dein inhaltliches Profil. Aus denselben vorhandenen Punkten entsteht zusätzlich oben deine Erfahrungsstufe. Jede Aufgabe stärkt ihren Hauptbereich mit +2 und weitere Wirkungsbereiche mit je +1, sobald du sie erfolgreich speicherst.";
 
 export function LearningPointsHelp({
   awardedPointIds: _awardedPointIds,

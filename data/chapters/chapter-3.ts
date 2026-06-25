@@ -4,6 +4,9 @@ import {
   scenePeerFeedback,
   scenePerspektivwechsel,
 } from "@/data/optional-scenes";
+import { chapter5 } from "@/data/chapters/chapter-5";
+
+const sceneRueckblick = chapter5.scenes.find((scene) => scene.id === "c5-rueckblick");
 
 export const chapter3: Chapter = {
   id: "wahrnehmen-erklaeren-rueckmeldung",
@@ -330,5 +333,6 @@ export const chapter3: Chapter = {
     scenePerspektivwechsel,
     scenePeerFeedback,
     sceneFallbeispiel,
+    ...(sceneRueckblick ? [sceneRueckblick] : []),
   ],
 };

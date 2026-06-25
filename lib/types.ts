@@ -267,6 +267,7 @@ export type ProgressState = {
   notebook: NotebookState;
   openedInsightIds: string[];
   awardedPointIds: string[];
+  notebookIntroSeen?: boolean;
   highestExperienceStageSeenId?: string | null;
   startedAt?: string;
   updatedAt?: string;

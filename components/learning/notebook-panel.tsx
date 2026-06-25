@@ -18,6 +18,8 @@ type NotebookPanelProps = {
   downloadHref?: string;
   forceExpanded?: boolean;
   hideToggle?: boolean;
+  introSeen?: boolean;
+  onIntroSeen?: () => void;
 };
 
 const notebookSections: Record<
@@ -128,6 +130,8 @@ export function NotebookPanel({
   downloadHref = "/downloads/notizbuch-digital.pdf",
   forceExpanded = false,
   hideToggle = false,
+  introSeen = true,
+  onIntroSeen,
 }: NotebookPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<NotebookSectionId>(defaultSection);
@@ -142,6 +146,12 @@ export function NotebookPanel({
       setIsOpen(true);
     }
   }, [forceExpanded]);
+
+  useEffect(() => {
+    if ((forceExpanded || isOpen) && !introSeen) {
+      onIntroSeen?.();
+    }
+  }, [forceExpanded, introSeen, isOpen, onIntroSeen]);
 
   const section = notebookSections[activeSection];
   const filledCount = useMemo(
@@ -189,8 +199,37 @@ export function NotebookPanel({
       {isExpanded ? (
         <div className="mt-4 space-y-4 border-t border-mist pt-4">
           <div className="rounded-3xl border border-mist bg-white p-4 text-sm leading-6 text-ink/78 shadow-sm">
-            Das Notizbuch ist kein Test. Es hilft dir, Erfahrungen, Ziele und Entwicklungsschritte
-            für deine ÜL-Rolle festzuhalten.
+            <p>
+              Das Notizbuch ist kein Test. Es hilft dir, Erfahrungen, Ziele und Entwicklungsschritte
+              für deine ÜL-Rolle festzuhalten.
+            </p>
+            {!introSeen ? (
+              <div className="mt-3 rounded-2xl border border-pine/15 bg-pine/5 p-3 text-ink">
+                <p className="font-semibold">Dein Notizbuch begleitet die Lernreise</p>
+                <p className="mt-1">
+                  Es ergänzt die Aufgaben, ersetzt sie aber nicht. Deine Notizen bleiben lokal in
+                  diesem Browser gespeichert.
+                </p>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="rounded-3xl border border-[#b9d6b1] bg-[#eef8ea] p-4 text-sm leading-6 text-ink shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#2f6a39]">
+              Beutebuch-Impuls
+            </p>
+            <p className="mt-2 font-semibold">Eine Erkenntnis sichern</p>
+            <p className="mt-1">
+              Halte eine Erkenntnis aus der Lernreise so fest, dass du sie in einer Woche noch
+              wiederfindest und nutzen kannst.
+            </p>
+            <button
+              type="button"
+              onClick={() => setActiveSection("review")}
+              className="mt-3 inline-flex min-h-10 items-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-mist transition hover:border-pine hover:text-pine"
+            >
+              Beutebuch-Impuls nutzen
+            </button>
           </div>
 
           <div className="flex flex-wrap gap-2">

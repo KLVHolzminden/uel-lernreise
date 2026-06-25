@@ -2,7 +2,6 @@
 import { chapter2 } from "@/data/chapters/chapter-2";
 import { chapter3 } from "@/data/chapters/chapter-3";
 import { chapter4 } from "@/data/chapters/chapter-4";
-import { chapter5 } from "@/data/chapters/chapter-5";
 import { attachDeepDivesToChapter } from "@/data/scene-deep-dives";
 import { Course } from "@/lib/types";
 
@@ -12,10 +11,10 @@ export const onboardingCourse: Course = {
   subtitle: "Lachen, Lernen, Leisten – drei Perspektiven für gute Übungsstunden",
   organization: "Lernreise für angehende Übungsleitende im Sportverein",
   intro:
-    "Gute Übungsstunden entstehen nicht nur durch Übungen. Du gestaltest Atmosphäre, ermöglichst Lernen und dosierst Leistung passend. Im regulären Lernweg bearbeitest du 20 Aufgaben, freiwillige Vertiefungen schärfen zusätzlich dein Profil.",
+    "Gute Übungsstunden entstehen nicht nur durch Übungen. Du gestaltest Atmosphäre, ermöglichst Lernen und dosierst Leistung passend. Im regulären Lernweg bearbeitest du 17 Aufgaben, freiwillige Vertiefungen schärfen zusätzlich dein Profil.",
   passThreshold: 55,
-  completionGoal: 20,
-  chapters: [chapter1, chapter2, chapter3, chapter4, chapter5].map((chapter) =>
+  completionGoal: 17,
+  chapters: [chapter1, chapter2, chapter3, chapter4].map((chapter) =>
     attachDeepDivesToChapter(chapter),
   ),
 };

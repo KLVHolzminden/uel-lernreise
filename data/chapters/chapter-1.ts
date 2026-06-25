@@ -19,7 +19,7 @@ export const chapter1: Chapter = {
       prompt:
         "Gute Uebungsstunden entstehen nicht nur durch Uebungen. Du gestaltest Atmosphaere, ermoeglichst Lernen und dosierst Leistung passend.",
       context:
-        "Im regulären Lernweg bearbeitest du 20 Aufgaben. Freiwillige Vertiefungen, Bildszenen und dein Notizbuch ergänzen dein Profil.",
+        "Im regulären Lernweg bearbeitest du 17 Aufgaben. Freiwillige Vertiefungen, Bildszenen und dein Notizbuch ergänzen dein Profil.",
       contextAward: {
         total: 1,
         kind: "bonus",

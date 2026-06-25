@@ -18,6 +18,7 @@ type StartScreenProps = {
   notebook: NotebookState;
   onNotebookChange: (field: keyof NotebookState, value: string) => void;
   onAwardPoints: (awards: PointsAward[]) => void;
+  onNotebookIntroSeen?: () => void;
   onStart: () => void;
   onResume: () => void;
   notice?: string | null;
@@ -32,6 +33,7 @@ export function StartScreen({
   notebook,
   onNotebookChange,
   onAwardPoints,
+  onNotebookIntroSeen,
   onStart,
   onResume,
   notice,
@@ -48,7 +50,7 @@ export function StartScreen({
               Interaktive Lernreise
             </p>
             <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate">
-              <span className="rounded-full bg-sand px-3 py-1.5">20 reguläre Aufgaben im Lernweg</span>
+              <span className="rounded-full bg-sand px-3 py-1.5">{learningProgress.total} reguläre Aufgaben im Lernweg</span>
               <span className="rounded-full bg-sand px-3 py-1.5">ohne Login</span>
               <span className="rounded-full bg-sand px-3 py-1.5">lokal gespeichert</span>
             </div>
@@ -61,7 +63,7 @@ export function StartScreen({
             <div className="max-w-[40rem] space-y-1 text-base leading-8 text-slate">
               <p>Gute Übungsstunden entstehen nicht nur durch Übungen.</p>
               <p>Du gestaltest Atmosphäre, ermöglichst Lernen und dosierst Belastung.</p>
-              <p>Der Pflichtweg umfasst 20 reguläre Aufgaben. Freiwillige Vertiefungen schärfen zusätzlich dein Profil.</p>
+              <p>Der Pflichtweg umfasst {learningProgress.total} reguläre Aufgaben. Freiwillige Vertiefungen schärfen zusätzlich dein Profil.</p>
             </div>
             {notice ? (
               <div className="max-w-[34rem] rounded-3xl border border-pine/15 bg-pine/5 px-4 py-3 text-sm leading-6 text-ink">
@@ -122,7 +124,7 @@ export function StartScreen({
                 So funktioniert die Lernreise
               </p>
               <div className="mt-3 space-y-2 text-sm leading-7 text-slate">
-                <p>Der Pflichtfortschritt richtet sich nur nach den 20 regulären Aufgaben.</p>
+                <p>Der Pflichtfortschritt richtet sich nur nach den {learningProgress.total} regulären Aufgaben.</p>
                 <p>Lachen, Lernen und Leisten bleiben als Profilbalken sichtbar.</p>
                 <p>Die Erfahrungsstufe verdichtet dieselben Punkte zu einem kompakten Lernstand.</p>
                 <p>Freiwillige Vertiefungen stärken dein Profil, zählen aber nicht zum Pflichtfortschritt.</p>
@@ -170,6 +172,8 @@ export function StartScreen({
             compact
             className="bg-white/76"
             downloadHref="/downloads/notizbuch-digital.pdf"
+            introSeen={progress.notebookIntroSeen ?? false}
+            onIntroSeen={onNotebookIntroSeen}
           />
         </div>
       </div>

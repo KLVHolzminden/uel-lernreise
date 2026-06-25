@@ -75,7 +75,16 @@ export function IntroCard({
         </div>
       ) : null}
 
-      <div className="pt-2">
+      <div className="flex flex-wrap gap-3 pt-2">
+        {scene.id === "c1-intro" && onOpenStatus ? (
+          <button
+            type="button"
+            onClick={onOpenStatus}
+            className="min-h-12 rounded-full border border-mist bg-white px-5 py-3 text-sm font-semibold text-ink transition hover:border-pine hover:text-pine"
+          >
+            ÜL-Kompass
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={onComplete}

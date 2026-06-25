@@ -30,6 +30,7 @@ export const defaultProgress: ProgressState = {
   notebook: { ...defaultNotebook },
   openedInsightIds: [],
   awardedPointIds: [],
+  notebookIntroSeen: false,
   highestExperienceStageSeenId: "starter",
 };
 
